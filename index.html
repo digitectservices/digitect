@@ -1,11 +1,239 @@
 <!DOCTYPE html>
-<html>
-<body>
+<html lang="en"><head>
 
-<h1>Coming soon</h1>
+  <meta charset="UTF-8">
 
-<p>Digitect</p>
 
-</body>
-</html>
 
+  <link rel="shortcut icon" type="image/x-icon" href="digitect.png">
+
+
+
+  <title>Digitect</title>
+
+
+
+
+<style>
+@import url("https://fonts.googleapis.com/css?family=Montserrat:200,300,400,600");
+.more-pens {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 10;
+}
+
+a.white-mode, a.white-mode:link, a.white-mode:visited, a.white-mode:active {
+  font-family: "Montserrat";
+  font-size: 12px;
+  text-decoration: none;
+  background: #212121;
+  padding: 4px 8px;
+  color: #f7f7f7;
+}
+a.white-mode:hover, a.white-mode:link:hover, a.white-mode:visited:hover, a.white-mode:active:hover {
+  background: #edf3f8;
+  color: #212121;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#particles {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  filter: url("#goo");
+}
+
+.background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #edf3f8;
+}
+
+.title {
+  z-index: 10;
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translateX(-50%) translateY(-50%);
+  font-family: "Montserrat";
+  text-align: center;
+  width: 60%;
+}
+.title h1 {
+  position: relative;
+  color: #000000;
+  font-weight: 300;
+  font-size: 60px;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+.title h1 span {
+  font-weight: 600;
+  font-size: 60px;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+.title h3 {
+  font-weight: 200;
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
+  line-height: 2;
+  color: #5e7283;
+  letter-spacing: 2px;
+}
+
+.circle {
+  fill: #3E82F7;
+}
+
+svg {
+  display: block;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  transform: translateZ(0px);
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+
+
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no" data-new-gr-c-s-check-loaded="14.1095.0" data-gr-ext-installed="">
+  <div id="particles"></div>
+<div class="background"></div>
+<div class="title">
+  <h3>Coming soon 2023</h3>
+  <h1>DIGI<span>TECT</span></h1>
+</div>
+<svg>
+  <defs>
+    <filter id="goo">
+      <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="12"></feGaussianBlur>
+      <feColorMatrix in="blur" result="colormatrix" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -9"></feColorMatrix>
+      <feBlend in="SourceGraphic" in2="colormatrix"></feBlend>
+    </filter>
+  </defs>
+</svg>
+
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script id="rendered-js">
+const circle = '<svg viewBox="0 0 67.4 67.4"><circle class="circle" cx="33.7" cy="33.7" r="33.7"/></svg>';
+
+class Particle {
+
+  constructor(svg, coordinates, friction) {
+    this.svg = svg;
+    this.steps = $(window).height() / 2;
+    this.item = null;
+    this.friction = friction;
+    this.coordinates = coordinates;
+    this.position = this.coordinates.y;
+    this.dimensions = this.render();
+    this.move();
+    this.rotation = Math.random() > 0.5 ? "-" : "+";
+    this.scale = 0.4 + Math.random() * 2;
+    this.siner = $(window).width() / 2.5 * Math.random();
+  }
+  destroy() {
+    this.item.remove();
+  }
+
+  move() {
+    this.position = this.position - this.friction;
+    let top = this.position;
+    let left = this.coordinates.x + Math.sin(this.position * Math.PI / this.steps) * this.siner;
+    this.item.css({
+      transform: "translateX(" + left + "px) translateY(" + top + "px) scale(" + this.scale + ") rotate(" + this.rotation + (this.position + this.dimensions.height) + "deg)" });
+
+
+    if (this.position < -this.dimensions.height) {
+      this.destroy();
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  render() {
+    this.item = $(this.svg, {
+      css: {
+        transform: "translateX(" + this.coordinates.x + "px) translateY(" + this.coordinates.y + "px)" } });
+
+
+    $("#particles").append(this.item);
+    return {
+      width: this.item.width(),
+      height: this.item.height() };
+
+  }}
+
+
+
+let isPaused = false;
+window.onblur = function () {
+  isPaused = true;
+}.bind(this);
+window.onfocus = function () {
+  isPaused = false;
+}.bind(this);
+
+//-------------------------------
+let particles = [];
+
+setInterval(function () {
+  if (!isPaused) {
+    particles.push(
+    new Particle(circle, {
+      "x": Math.random() * $(window).width(),
+      "y": $(window).height() + 100 },
+    1 + Math.random()));
+
+  }
+}, 180);
+
+function update() {
+  particles = particles.filter(function (p) {
+    return p.move();
+  });
+  requestAnimationFrame(update.bind(this));
+}
+update();
+//# sourceURL=pen.js
+    </script>
+
+
+
+
+
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
